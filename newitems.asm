@@ -183,6 +183,14 @@ AddReceivedItemExpandedGetItem:
 	;STA $FFFFFF
 	LDA $02D8 ; check inventory
 	JSL.l FreeDungeonItemNotice
+
+	PHA
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BEQ +
+		PLA
+		BRL .done
+	+
+	PLA
+
 	CMP.b #$0B : BNE + ; Bow
 		LDA !INVENTORY_SWAP_2 : AND.b #$40 : BEQ ++
 		LDA.l SilverArrowsUseRestriction : BNE ++
@@ -430,12 +438,15 @@ AddReceivedItemExpanded:
 			+
 			LDA !PROGRESSIVE_SHIELD : AND.b #$C0 : BNE + ; No Shield
 				LDA.b #$04 : STA $02D8
+				LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BEQ +++ : BRL .done : +++
 				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRL .done
 			+ : CMP.b #$40 : BNE + ; Fighter Shield
 				LDA.b #$05 : STA $02D8
-				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRA .done
+				LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BEQ +++ : BRL .done : +++
+				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRL .done
 			+ ; Everything Else
 				LDA.b #$06 : STA $02D8
+				LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BEQ +++ : BRL .done : +++
 				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRA .done
 		++ : CMP.b #$60 : BNE ++ ; Progressive Armor
 			LDA $7EF35B : CMP.l ProgressiveArmorLimit : !BLT +

@@ -54,6 +54,7 @@ OnQuit:
 RTL
 ;--------------------------------------------------------------------------------
 OnUncleItemGet:
+	PHA : LDA UncleItem_Player : STA !MULTIWORLD_ITEM_PLAYER_ID : PLA
 	JSL Link_ReceiveItem
 	
 	LDA.l EscapeAssist
@@ -204,6 +205,13 @@ PostItemAnimation:
 		LDA.b #$00 : STA $7F50A0
 	+
 
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BEQ .moveon
+		STZ $02E9
+		LDA #$00 : STA !MULTIWORLD_ITEM_PLAYER_ID
+		LDA #$33 : STA $012F
+		JML.l Ancilla_ReceiveItem_objectFinished
+
+	.moveon
     STZ $02E9 : LDA $0C5E, X ; thing we wrote over to get here
-RTL
+	JML.l Ancilla_ReceiveItem_optimus+6
 ;--------------------------------------------------------------------------------

@@ -73,6 +73,14 @@ db #$20, #$18, #$07, #$23 ; year/month/day
 !SHOP_PURCHASE_COUNTS = "$7EF302"
 ;================================================================================
 
+!MULTIWORLD_ITEM = "$7EF4D2"
+!MULTIWORLD_HUD_TIMER = "$7EF4D3"
+!MULTIWORLD_RECEIVING_ITEM = "$7EC057" ; 0 = default | 1 = receiving
+!MULTIWORLD_HUD_CHARACTER_DATA = "$7EC058" ; 0x80 bytes
+!MULTIWORLD_ITEM_PLAYER_ID = "$7EC0D8" ; 0 = disabled
+!MULTIWORLD_HUD_DELAY = "#60"
+!Dungeon_ChestData = "$01E96C"
+
 incsrc hooks.asm
 incsrc treekid.asm
 incsrc spriteswap.asm
@@ -174,6 +182,7 @@ incsrc newhud.asm
 incsrc compasses.asm
 incsrc password.asm
 incsrc enemy_adjustments.asm
+incsrc multiworld.asm
 warnpc $A58000
 
 ;org $228000 ; contrib area
@@ -185,6 +194,7 @@ incsrc stats/main.asm
 
 org $308000 ; bank #$30
 incsrc tables.asm
+warnpc $318000
 
 ;incsrc sandbox.asm
 
@@ -478,11 +488,20 @@ Sprite_CheckIfPlayerPreoccupied:
 org $08C3AE
 Ancilla_ReceiveItem:
 
+org $08C505
+Ancilla_ReceiveItem_objectFinished:
+
 org $08F710
 Ancilla_SetOam_XY_Long:
 
 org $0985E2 ; (break on $0985E4)
 AddReceivedItem:
+
+org $098605
+AddReceivedItem_notCrystal:
+
+org $098766
+AddReceivedItem_gfxHandling:
 
 org $098BAD
 AddPendantOrCrystal:

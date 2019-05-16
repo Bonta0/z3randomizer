@@ -1549,5 +1549,135 @@ db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
 db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
 db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
 ;--------------------------------------------------------------------------------
-; 0x185140 - 187FFF (unused)
+; 0x185140 - 0x18536B Multiworld Item's PlayerID
+;--------------------------------------------------------------------------------
+org $30D140 ; PC 0x185140 - 0x185337
+ChestData_Player:
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+dl $000000, $000000, $000000, $000000, $000000, $000000, $000000, $000000
+MushroomItem_Player: ; 0x185338
+db #$00
+BottleMerchant_Player: ; 0x185339
+db #$00
+StandingKey_Hera_Player: ; 0x18533A
+db #$00
+EtherItem_Player: ; 0x18533B
+db #$00
+BombosItem_Player: ; 0x18533C
+db #$00
+HauntedGroveItem_Player: ; 0x18533D
+db #$00
+HeartContainer_ArmosKnights_Player: ; 0x18533E
+db #$00
+HeartContainer_Lanmolas_Player: ; 0x18533F
+db #$00
+HeartContainer_Moldorm_Player: ; 0x185340
+db #$00
+HeartContainer_HelmasaurKing_Player: ; 0x185341
+db #$00
+HeartContainer_Arrghus_Player: ; 0x185342
+db #$00
+HeartContainer_Mothula_Player: ; 0x185343
+db #$00
+HeartContainer_Blind_Player: ; 0x185344
+db #$00
+HeartContainer_Kholdstare_Player: ; 0x185345
+db #$00
+HeartContainer_Vitreous_Player: ; 0x185346
+db #$00
+HeartContainer_Trinexx_Player: ; 0x185347
+db #$00
+HeartPiece_Forest_Thieves_Player: ; 0x185348
+db #$00
+HeartPiece_Lumberjack_Tree_Player: ; 0x185349
+db #$00
+HeartPiece_Spectacle_Cave_Player: ; 0x18534A
+db #$00
+HeartPiece_Circle_Bushes_Player: ; 0x18534B
+db #$00
+HeartPiece_Graveyard_Warp_Player: ; 0x18534C
+db #$00
+HeartPiece_Mire_Warp_Player: ; 0x18534D
+db #$00
+HeartPiece_Smith_Pegs_Player: ; 0x18534E
+db #$00
+HeartPiece_Spectacle_Player: ; 0x18534F
+db #$00
+HeartPiece_Mountain_Warp_Player: ; 0x185350
+db #$00
+HeartPiece_Maze_Player: ; 0x185351
+db #$00
+HeartPiece_Desert_Player: ; 0x185352
+db #$00
+HeartPiece_Lake_Player: ; 0x185353
+db #$00
+HeartPiece_Swamp_Player: ; 0x185354
+db #$00
+HeartPiece_Cliffside_Player: ; 0x185355
+db #$00
+HeartPiece_Pyramid_Player: ; 0x185356
+db #$00
+HeartPiece_Digging_Player: ; 0x185357
+db #$00
+HeartPiece_Zora_Player: ; 0x185358
+db #$00
+PurpleChest_Item_Player: ; 0x185359
+db #$00
+RupeeNPC_MoldormCave_Player: ; 0x18535A
+db #$00
+RupeeNPC_NortheastDarkSwampCave_Player: ; 0x18535B
+db #$00
+LibraryItem_Player: ; 0x18535C
+db #$00
+WitchItem_Player: ; 0x18535D
+db #$00
+MagicBatItem_Player: ; 0x18535E
+db #$00
+UncleItem_Player: ; 0x18535F
+db #$00
+ZoraItem_Player: ; 0x185360
+db #$00
+CatfishItem_Player: ; 0x185361
+db #$00
+BonkKey_Desert_Player: ; 0x185362
+db #$00
+BonkKey_GTower_Player: ; 0x185363
+db #$00
+OldManItem_Player: ; 0x185364
+db #$00
+SahasralaItem_Player: ; 0x185365
+db #$00
+SmithItem_Player: ; 0x185366
+db #$00
+SickKidItem_Player: ; 0x185367
+db #$00
+HoboItem_Player: ; 0x185368
+db #$00
+PedestalSword_Player: ; 0x185369
+db #$00
+TreeKidItem_Player: ; 0x18536A
+db #$00
+ChestGameItem_Player: ; 0x18536B
+db #$00
+;--------------------------------------------------------------------------------
+; 0x18536C - 187FFF (unused)
 ;--------------------------------------------------------------------------------
