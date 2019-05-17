@@ -1813,9 +1813,18 @@ JSL FixAgahnimFollowers
 org $028823 ; <- 10823 - Bank02.asm:1560 (LDA $7EF3C5 : BEQ .ignoreInput)
 JSL.l AllowSQ
 ;--------------------------------------------------------------------------------
-org $08C45F ; <- 4445F - ancilla_recieve_item.asm:157 (STZ $02E9)
+
+org $08C45F ; <- 4445F - ancilla_recieve_item.asm:157 (STZ $02E9 : LDA $0C5E, X)
 Ancilla_ReceiveItem_optimus:
 JML.l PostItemAnimation : NOP #2
+
+org $08C548 ; <- 44548 - ancilla_recieve_item.asm:297 (CMP.b #$28 : BNE .dontGiveRupees)
+JML.l Multiworld_Ancilla_ReceiveItem_stillInMotion
+Ancilla_ReceiveItem_stillInMotion_moveon:
+
+org $08C560 ; <- 44548 - ancilla_recieve_item.asm:307
+Ancilla_ReceiveItem_dontGiveRupees:
+
 ;--------------------------------------------------------------------------------
 org $1EE90A ; <- F690A
 JSL.l ItemCheck_OldMan

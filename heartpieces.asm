@@ -110,6 +110,11 @@ HeartContainerSound:
 RTL
 ;--------------------------------------------------------------------------------
 NormalItemSkipSound:
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BEQ +
+		SEC
+		RTL
+	+
+
 	LDA $0C5E, X ; thing we wrote over
 
 	CPY.b #$20 : BEQ + ; Skip for Crystal

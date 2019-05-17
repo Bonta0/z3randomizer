@@ -195,9 +195,19 @@ RTL
 Multiworld_AddReceivedItem_notCrystal:
 {
 	LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BEQ +
+		LDA #$33 : STA $012F
 		TYA : STA $02E4 : PHX ; things we wrote over
 		JML.l AddReceivedItem_gfxHandling
 	+
 	TYA : STA $02E4 : PHX ; things we wrote over
 	JML.l AddReceivedItem_notCrystal+5
+}
+
+Multiworld_Ancilla_ReceiveItem_stillInMotion:
+{
+	CMP.b #$28 : BNE + ; thing we wrote over
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BNE +
+		JML.l Ancilla_ReceiveItem_stillInMotion_moveon
+	+
+	JML.l Ancilla_ReceiveItem_dontGiveRupees
 }

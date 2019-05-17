@@ -205,13 +205,17 @@ PostItemAnimation:
 		LDA.b #$00 : STA $7F50A0
 	+
 
-	LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BEQ .moveon
+	LDA $1B : CMP #$00 : BEQ +
+		REP #$20 : LDA $A0 : STA !MULTIWORLD_ROOMID : SEP #$20
+		LDA $0403 : STA !MULTIWORLD_ROOMDATA
+	+
+
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BEQ +
 		STZ $02E9
 		LDA #$00 : STA !MULTIWORLD_ITEM_PLAYER_ID
-		LDA #$33 : STA $012F
 		JML.l Ancilla_ReceiveItem_objectFinished
+	+
 
-	.moveon
     STZ $02E9 : LDA $0C5E, X ; thing we wrote over to get here
 	JML.l Ancilla_ReceiveItem_optimus+6
 ;--------------------------------------------------------------------------------
