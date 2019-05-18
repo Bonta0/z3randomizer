@@ -382,13 +382,19 @@ AddReceivedItemExpanded:
 {
 	PHA : PHX
 		JSL.l PreItemGet
-		
-		LDA $02D8 ; Item Value
-		JSR AttemptItemSubstitution
-		STA $02D8
-		
-		JSR IncrementItemCounters
-			
+
+		LDA $02D8 : PHA ; Item Value
+		LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BNE +
+			PLA
+			JSR AttemptItemSubstitution
+			STA $02D8
+
+			JSR IncrementItemCounters
+			BRA ++
+		+
+		PLA
+		++
+
 		CMP.b #$16 : BNE ++ ; Bottle
 			JSR.w CountBottles : CMP.l BottleLimit : !BLT +++
 				LDA.l BottleLimitReplacement : STA $02D8
@@ -850,7 +856,14 @@ Link_ReceiveItemAlternatesExpanded:
 	PHB : PHK : PLB
 		;TYA : JSR IncrementItemCounters
 		;LDA Link_ReceiveItemAlternatesExpanded, Y : STA $03
-		TYA : JSR AttemptItemSubstitution : STA $03
+		LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BNE +
+			TYA
+			JSR AttemptItemSubstitution
+			BRA ++
+		+
+		TYA
+		++
+		STA $03
 		CPY $03 : BNE + : LDA.b #$FF : STA $03 : +
 	PLB
 RTL

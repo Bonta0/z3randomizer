@@ -1,41 +1,88 @@
 HUD_clearTable:
-dw $007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F
+dw $007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F
+
+;"received from " 28 bytes
+HUD_ReceivedFrom:
+dw $296E, $2961, $295F, $2961, $2965, $2972, $2961, $2960, $007F, $2962, $296E, $296B, $2969, $007F
+
+;"sent to " 16 bytes
+HUD_SendTo:
+dw $296F, $2961, $296A, $2970, $007F, $2970, $296B, $007F
+
+macro Print_Text(hdr, hdr_len, player_id)
+PHX : PHY : PHP
+	REP #$30
+	LDX #$0000
+	-
+	CPX <hdr_len> : !BGE ++
+		LDA <hdr>, X
+		STA !MULTIWORLD_HUD_CHARACTER_DATA, X
+		INX #2
+		BRA -
+	++
+	LDY <hdr_len>
+
+	LDA <player_id>
+	AND #$00FF
+	DEC
+	CMP #$0040 : !BGE .textdone
+	ASL #5
+	TAX
+	-
+	CPY <hdr_len>+#$20 : !BGE ++
+		LDA PlayerNames, X
+		PHX : TYX : STA !MULTIWORLD_HUD_CHARACTER_DATA, X : PLX
+		INX #2 : INY #2
+		BRA -
+	++
+
+	TYX
+	-
+	CPX #$0040 : !BGE ++
+		LDA #$007F
+		STA !MULTIWORLD_HUD_CHARACTER_DATA, X
+		INX #2
+		BRA -
+	++
+
+	SEP #$20
+	LDA !MULTIWORLD_HUD_DELAY
+	STA !MULTIWORLD_HUD_TIMER
+.textdone
+PLP : PLY : PLX
+endmacro
 
 WriteText:
 {
-	PHP
-	LDX #$80 : STX $2100
-	REP #$20
-	LDA #$6000+$0340 : STA $2116
-
-	LDA.w #!MULTIWORLD_HUD_CHARACTER_DATA : STA $4342
-	LDX.b #!MULTIWORLD_HUD_CHARACTER_DATA>>16 : STX $4344
-		
-	LDA #$0080 : STA $4345
-	LDA #$1801 : STA $4340
-	LDX #$10 : STX $420B
-
-	LDX #$0F : STX $2100
-	PLP
+	PHA : PHX : PHP
+		SEP #$10
+		LDX #$80 : STX $2100
+		REP #$20
+		LDA #$6000+$0340 : STA $2116
+		LDA.w #!MULTIWORLD_HUD_CHARACTER_DATA : STA $4342
+		LDX.b #!MULTIWORLD_HUD_CHARACTER_DATA>>16 : STX $4344
+		LDA #$0040 : STA $4345
+		LDA #$1801 : STA $4340
+		LDX #$10 : STX $420B
+		LDX #$0F : STX $2100
+	PLP : PLX : PLA
 RTL
 }
 
 ClearBG:
 {
-	PHP
-	LDX #$80 : STX $2100
-	REP #$20
-	LDA #$6000+$0340 : STA $2116
-		
-	LDA.w #HUD_clearTable : STA $4342
-	LDX.b #HUD_clearTable>>16 : STX $4344
-
-	LDA #$0080 : STA $4345
-	LDA #$1801 : STA $4340
-	LDX #$10 : STX $420B
-
-	LDX #$0F : STX $2100
-	PLP
+	PHA : PHX : PHP
+		SEP #$10
+		LDX #$80 : STX $2100
+		REP #$20
+		LDA #$6000+$0340 : STA $2116
+		LDA.w #HUD_clearTable : STA $4342
+		LDX.b #HUD_clearTable>>16 : STX $4344
+		LDA #$0040 : STA $4345
+		LDA #$1801 : STA $4340
+		LDX #$10 : STX $420B
+		LDX #$0F : STX $2100
+	PLP : PLX : PLA
 RTL
 }
 
@@ -58,7 +105,6 @@ GetMultiworldItem:
 	CMP #$00 : BEQ .textend
 		CMP !MULTIWORLD_HUD_DELAY : BNE +
 			JSL WriteText
-			LDA !MULTIWORLD_HUD_TIMER
 		+
 		DEC #$01 : STA !MULTIWORLD_HUD_TIMER
 		CMP #$00 : BNE .textend
@@ -131,6 +177,8 @@ GetMultiworldItem:
 	JSL Link_ReceiveItem
 	LDA #$00 : STA !MULTIWORLD_ITEM : STA !MULTIWORLD_RECEIVING_ITEM
 
+	%Print_Text(HUD_ReceivedFrom, #$001C, !MULTIWORLD_ITEM_FROM)
+	
 	.return
 	PLP
 	LDA $5D : ASL A : TAX
@@ -194,12 +242,16 @@ RTL
 
 Multiworld_AddReceivedItem_notCrystal:
 {
+	TYA : STA $02E4 : PHX ; things we wrote over
+	
 	LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BEQ +
+		PHY : LDY $02D8 : JSL AddInventory : PLY
+
+		%Print_Text(HUD_SendTo, #$0010, !MULTIWORLD_ITEM_PLAYER_ID)
 		LDA #$33 : STA $012F
-		TYA : STA $02E4 : PHX ; things we wrote over
+
 		JML.l AddReceivedItem_gfxHandling
 	+
-	TYA : STA $02E4 : PHX ; things we wrote over
 	JML.l AddReceivedItem_notCrystal+5
 }
 

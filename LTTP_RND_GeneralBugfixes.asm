@@ -74,13 +74,14 @@ db #$20, #$18, #$07, #$23 ; year/month/day
 ;================================================================================
 
 !MULTIWORLD_ITEM = "$7EF4D2"
-!MULTIWORLD_HUD_TIMER = "$7EF4D3"
+!MULTIWORLD_ITEM_FROM = "$7EF4D3"
 !MULTIWORLD_ROOMID = "$7EF4D4"
 !MULTIWORLD_ROOMDATA = "$7EF4D6"
 !MULTIWORLD_RECEIVING_ITEM = "$7EC057" ; 0 = default | 1 = receiving
-!MULTIWORLD_HUD_CHARACTER_DATA = "$7EC058" ; 0x80 bytes
-!MULTIWORLD_ITEM_PLAYER_ID = "$7EC0D8" ; 0 = disabled
-!MULTIWORLD_HUD_DELAY = "#60"
+!MULTIWORLD_HUD_CHARACTER_DATA = "$7EC058" ; 0x40 bytes
+!MULTIWORLD_ITEM_PLAYER_ID = "$7EC098" ; 0 = disabled
+!MULTIWORLD_HUD_TIMER = "$7EC099"
+!MULTIWORLD_HUD_DELAY = "#120"
 !Dungeon_ChestData = "$01E96C"
 
 incsrc hooks.asm

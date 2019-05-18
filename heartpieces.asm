@@ -97,6 +97,7 @@ DrawHeartContainerGFX:
 	BRA DrawHeartPieceGFX_skipLoad
 ;--------------------------------------------------------------------------------
 HeartContainerSound:
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BNE +
 	CPY.b #$20 : BEQ + ; Skip for Crystal
 	CPY.b #$37 : BEQ + ; Skip for Pendants
 	CPY.b #$38 : BEQ +

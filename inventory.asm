@@ -201,7 +201,7 @@ FullInventoryExternal:
 !SHAME_CHEST = "$7EF416" ; ---s ----
 AddInventory:
 	PHA : PHX : PHP
-	
+
 	LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BEQ +
 		BRL .incrementCounts
 	+
