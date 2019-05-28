@@ -1473,6 +1473,17 @@ JSL.l HUDRebuildIndoorHole
 ;--------------------------------------------------------------------------------
 
 ;================================================================================
+; Skull Woods back entrance fire fix
+;--------------------------------------------------------------------------------
+org $099C42 ; ancilla_init.asm:4264 - (LDA $8A : AND.b #$40 : BEQ AddDoorDebris.spawn_failed)
+JML.l Multiworld_ConsumingFire_TransmuteToSkullWoodsFire
+NOP #2
+ConsumingFire_TransmuteToSkullWoodsFire_continue:
+
+org $099C39
+AddDoorDebris_spawn_failed:
+
+;================================================================================
 ; Pendant / Crystal Fixes
 ;--------------------------------------------------------------------------------
 ;org $0DE9C8 ; <- 6E9C8 - original check for agahnim 1 being defeated

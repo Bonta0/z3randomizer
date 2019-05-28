@@ -6,11 +6,13 @@ HUD_ReceivedFrom:
 dw $296E, $2961, $295F, $2961, $2965, $2972, $2961, $2960, $007F, $2962, $296E, $296B, $2969, $007F
 
 ;"sent to " 16 bytes
-HUD_SendTo:
+HUD_SentTo:
 dw $296F, $2961, $296A, $2970, $007F, $2970, $296B, $007F
 
 macro Print_Text(hdr, hdr_len, player_id)
 PHX : PHY : PHP
+	LDA MW_SkipNotification : CMP #$00 : BNE .textdone
+
 	REP #$30
 	LDX #$0000
 	-
@@ -115,7 +117,6 @@ GetMultiworldItem:
 	CMP #$00 : BEQ +
 	CMP #$04 : BEQ +
 	CMP #$17 : BEQ +
-	CMP #$1C : BEQ +
 		BRL .return
 	+
 
@@ -247,7 +248,7 @@ Multiworld_AddReceivedItem_notCrystal:
 	LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BEQ +
 		PHY : LDY $02D8 : JSL AddInventory : PLY
 
-		%Print_Text(HUD_SendTo, #$0010, !MULTIWORLD_ITEM_PLAYER_ID)
+		%Print_Text(HUD_SentTo, #$0010, !MULTIWORLD_ITEM_PLAYER_ID)
 		LDA #$33 : STA $012F
 
 		JML.l AddReceivedItem_gfxHandling
@@ -262,4 +263,20 @@ Multiworld_Ancilla_ReceiveItem_stillInMotion:
 		JML.l Ancilla_ReceiveItem_stillInMotion_moveon
 	+
 	JML.l Ancilla_ReceiveItem_dontGiveRupees
+}
+
+Multiworld_ConsumingFire_TransmuteToSkullWoodsFire:
+{
+	LDA $8A : AND.b #$40 : BEQ .failed ; things we wrote over
+	LDA $0C4A : CMP #$22 : BEQ .failed
+	LDA $0C4B : CMP #$22 : BEQ .failed
+	LDA $0C4C : CMP #$22 : BEQ .failed
+	LDA $0C4D : CMP #$22 : BEQ .failed
+	LDA $0C4E : CMP #$22 : BEQ .failed
+	LDA $0C4F : CMP #$22 : BEQ .failed
+
+	JML.l ConsumingFire_TransmuteToSkullWoodsFire_continue
+
+	.failed
+	JML.l AddDoorDebris_spawn_failed
 }
