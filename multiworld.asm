@@ -176,10 +176,11 @@ GetMultiworldItem:
 	STZ $02E9
 	JSL.l $0791B3 ; Player_HaltDashAttackLong
 	JSL Link_ReceiveItem
+
 	LDA #$00 : STA !MULTIWORLD_ITEM : STA !MULTIWORLD_RECEIVING_ITEM
 
 	%Print_Text(HUD_ReceivedFrom, #$001C, !MULTIWORLD_ITEM_FROM)
-	
+
 	.return
 	PLP
 	LDA $5D : ASL A : TAX
@@ -244,7 +245,9 @@ RTL
 Multiworld_AddReceivedItem_notCrystal:
 {
 	TYA : STA $02E4 : PHX ; things we wrote over
-	
+
+	LDA $2F : STA !ChestTurn_Buffer
+
 	LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BEQ +
 		PHY : LDY $02D8 : JSL AddInventory : PLY
 

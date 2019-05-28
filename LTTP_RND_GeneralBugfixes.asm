@@ -52,7 +52,7 @@ db #$20, #$18, #$07, #$23 ; year/month/day
 ;$7EF41C[w] - Programmable Item #2
 ;$7EF41E[w] - Programmable Item #3
 ;$7EF418 - Goal Item Counter
-;$7EF420 - $7EF466 - Stat Tracking Bank 1
+;$7EF420 - $7EF468 - Stat Tracking Bank 1
 ;$7EF450 - $7EF45F - RNG Item (Single) Flags
 
 !MS_GOT = "$7F5031"
@@ -83,6 +83,8 @@ db #$20, #$18, #$07, #$23 ; year/month/day
 !MULTIWORLD_HUD_TIMER = "$7EC099"
 !MULTIWORLD_HUD_DELAY = "#120"
 !Dungeon_ChestData = "$01E96C"
+
+!ChestTurn_Buffer = "$7EC09A"
 
 incsrc hooks.asm
 incsrc treekid.asm

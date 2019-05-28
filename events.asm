@@ -210,6 +210,10 @@ PostItemAnimation:
 		LDA $0403 : STA !MULTIWORLD_ROOMDATA
 	+
 
+	LDA $2F : CMP !ChestTurn_Buffer : BEQ +
+		JSL IncrementChestTurnCounter
+	+
+
 	LDA !MULTIWORLD_ITEM_PLAYER_ID : CMP #$00 : BEQ +
 		STZ $02E9
 		LDA #$00 : STA !MULTIWORLD_ITEM_PLAYER_ID

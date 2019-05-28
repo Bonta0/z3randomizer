@@ -472,124 +472,132 @@ CreditsLine156:
     ;BONKS                   $$$$
     db $02, $09, $84, $91, $90, $8D, $95
 CreditsLine157:
+    ;CHEST TURNS             $$$$
+    db $02, $15, $5F, $64, $61, $6F, $70, $9F, $70, $71, $6E, $6A, $6F
+CreditsLine158:
+    ;CHEST TURNS             $$$$
+    db $02, $15, $85, $8A, $87, $95, $96, $9F, $96, $97, $94, $90, $95
+CreditsLine159:
     ;SAVE AND QUITS          $$$$
     db $02, $1B, $6F, $5D, $72, $61, $9F, $5D, $6A, $60, $9F, $6D, $71, $65, $70, $6F
-CreditsLine158:
+CreditsLine160:
     ;SAVE AND QUITS          $$$$
     db $02, $1B, $95, $83, $98, $87, $9F, $83, $90, $86, $9F, $93, $97, $8B, $96, $95
-CreditsLine159:
+CreditsLine161:
     ;DEATHS                  $$$$
     db $02, $0B, $60, $61, $5D, $70, $64, $6F
-CreditsLine160:
+CreditsLine162:
     ;DEATHS                  $$$$
     db $02, $0B, $86, $87, $83, $96, $8A, $95
-CreditsLine161:
+CreditsLine163:
     ;FAERIE REVIVALS         $$$$
     db $02, $1D, $62, $5D, $61, $6E, $65, $61, $9F, $6E, $61, $72, $65, $72, $5D, $68, $6F
-CreditsLine162:
+CreditsLine164:
     ;FAERIE REVIVALS         $$$$
     db $02, $1D, $88, $83, $87, $94, $8B, $87, $9F, $94, $87, $98, $8B, $98, $83, $8E, $95
-CreditsLine163:
+CreditsLine165:
     ;TOTAL MENU TIME  $$$$$$$$$$$
     db $02, $1D, $70, $6B, $70, $5D, $68, $9F, $69, $61, $6A, $71, $9F, $70, $65, $69, $61
-CreditsLine164:
+CreditsLine166:
     ;TOTAL MENU TIME  $$$$$$$$$$$
     db $02, $1D, $96, $91, $96, $83, $8E, $9F, $8F, $87, $90, $97, $9F, $96, $8B, $8F, $87
-CreditsLine165:
+CreditsLine167:
     ;TOTAL LAG TIME   $$$$$$$$$$$
     db $02, $1B, $70, $6B, $70, $5D, $68, $9F, $68, $5D, $63, $9F, $70, $65, $69, $61
-CreditsLine166:
+CreditsLine168:
     ;TOTAL LAG TIME   $$$$$$$$$$$
     db $02, $1B, $96, $91, $96, $83, $8E, $9F, $8E, $83, $89, $9F, $96, $8B, $8F, $87
-CreditsLine167:
+CreditsLine169:
     ;COLLECTION RATE     $$$$/216
     db $02, $37, $5F, $6B, $68, $68, $61, $5F, $70, $65, $6B, $6A, $9F, $6E, $5D, $70, $61, $9F, $9F, $9F, $9F, $9F, $9F, $9F, $9F, $9F, $A2, $55, $54, $59
-CreditsLine168:
+CreditsLine170:
     ;COLLECTION RATE     $$$$/216
     db $02, $37, $85, $91, $8E, $8E, $87, $85, $96, $8B, $91, $90, $9F, $94, $83, $96, $87, $9F, $9F, $9F, $9F, $9F, $9F, $9F, $9F, $9F, $C2, $7B, $7A, $7F
-CreditsLine169:
+CreditsLine171:
     ;TOTAL TIME       $$$$$$$$$$$
     db $02, $13, $70, $6B, $70, $5D, $68, $9F, $70, $65, $69, $61
-CreditsLine170:
+CreditsLine172:
     ;TOTAL TIME       $$$$$$$$$$$
     db $02, $13, $96, $91, $96, $83, $8E, $9F, $96, $8B, $8F, $87
-CreditsLine171:
+CreditsLine173:
     ;(Blank line)
     db $FF
 
 CreditsLineTable:
-    dw CreditsLine000, CreditsLine171, CreditsLine171, CreditsLine001, CreditsLine002, CreditsLine171, CreditsLine171, CreditsLine003
-    dw CreditsLine004, CreditsLine171, CreditsLine171, CreditsLine171, CreditsLine005, CreditsLine171, CreditsLine171, CreditsLine006
-    dw CreditsLine007, CreditsLine171, CreditsLine171, CreditsLine171, CreditsLine008, CreditsLine171, CreditsLine171, CreditsLine009
-    dw CreditsLine010, CreditsLine171, CreditsLine171, CreditsLine171, CreditsLine011, CreditsLine171, CreditsLine171, CreditsLine012
-    dw CreditsLine013, CreditsLine171, CreditsLine171, CreditsLine171, CreditsLine014, CreditsLine171, CreditsLine171, CreditsLine015
-    dw CreditsLine016, CreditsLine171, CreditsLine017, CreditsLine018, CreditsLine171, CreditsLine171, CreditsLine171, CreditsLine019
-    dw CreditsLine171, CreditsLine171, CreditsLine001, CreditsLine020, CreditsLine171, CreditsLine171, CreditsLine021, CreditsLine022
-    dw CreditsLine171, CreditsLine023, CreditsLine024, CreditsLine171, CreditsLine171, CreditsLine171, CreditsLine025, CreditsLine171
-    dw CreditsLine171, CreditsLine026, CreditsLine027, CreditsLine171, CreditsLine028, CreditsLine029, CreditsLine171, CreditsLine171
-    dw CreditsLine171, CreditsLine030, CreditsLine171, CreditsLine171, CreditsLine031, CreditsLine032, CreditsLine171, CreditsLine171
-    dw CreditsLine171, CreditsLine033, CreditsLine171, CreditsLine171, CreditsLine034, CreditsLine035, CreditsLine171, CreditsLine171
-    dw CreditsLine171, CreditsLine036, CreditsLine171, CreditsLine171, CreditsLine037, CreditsLine038, CreditsLine171, CreditsLine171
-    dw CreditsLine171, CreditsLine039, CreditsLine171, CreditsLine171, CreditsLine040, CreditsLine041, CreditsLine171, CreditsLine042
-    dw CreditsLine043, CreditsLine171, CreditsLine044, CreditsLine045, CreditsLine171, CreditsLine046, CreditsLine047, CreditsLine171
-    dw CreditsLine048, CreditsLine049, CreditsLine171, CreditsLine050, CreditsLine051, CreditsLine171, CreditsLine052, CreditsLine053
-    dw CreditsLine171, CreditsLine054, CreditsLine055, CreditsLine171, CreditsLine171, CreditsLine171, CreditsLine056, CreditsLine171
-    dw CreditsLine171, CreditsLine057, CreditsLine058, CreditsLine171, CreditsLine171, CreditsLine171, CreditsLine059, CreditsLine171
-    dw CreditsLine171, CreditsLine060, CreditsLine061, CreditsLine171, CreditsLine062, CreditsLine063, CreditsLine171, CreditsLine171
-    dw CreditsLine171, CreditsLine064, CreditsLine171, CreditsLine171, CreditsLine065, CreditsLine066, CreditsLine171, CreditsLine067
-    dw CreditsLine068, CreditsLine171, CreditsLine069, CreditsLine070, CreditsLine171, CreditsLine071, CreditsLine072, CreditsLine171
-    dw CreditsLine073, CreditsLine074, CreditsLine171, CreditsLine171, CreditsLine171, CreditsLine075, CreditsLine171, CreditsLine171
-    dw CreditsLine076, CreditsLine077, CreditsLine171, CreditsLine078, CreditsLine079, CreditsLine171, CreditsLine080, CreditsLine081
-    dw CreditsLine171, CreditsLine082, CreditsLine083, CreditsLine171, CreditsLine084, CreditsLine085, CreditsLine171, CreditsLine086
-    dw CreditsLine087, CreditsLine171, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001
+    dw CreditsLine000, CreditsLine173, CreditsLine173, CreditsLine001, CreditsLine002, CreditsLine173, CreditsLine173, CreditsLine003
+    dw CreditsLine004, CreditsLine173, CreditsLine173, CreditsLine173, CreditsLine005, CreditsLine173, CreditsLine173, CreditsLine006
+    dw CreditsLine007, CreditsLine173, CreditsLine173, CreditsLine173, CreditsLine008, CreditsLine173, CreditsLine173, CreditsLine009
+    dw CreditsLine010, CreditsLine173, CreditsLine173, CreditsLine173, CreditsLine011, CreditsLine173, CreditsLine173, CreditsLine012
+    dw CreditsLine013, CreditsLine173, CreditsLine173, CreditsLine173, CreditsLine014, CreditsLine173, CreditsLine173, CreditsLine015
+    dw CreditsLine016, CreditsLine173, CreditsLine017, CreditsLine018, CreditsLine173, CreditsLine173, CreditsLine173, CreditsLine019
+    dw CreditsLine173, CreditsLine173, CreditsLine001, CreditsLine020, CreditsLine173, CreditsLine173, CreditsLine021, CreditsLine022
+    dw CreditsLine173, CreditsLine023, CreditsLine024, CreditsLine173, CreditsLine173, CreditsLine173, CreditsLine025, CreditsLine173
+    dw CreditsLine173, CreditsLine026, CreditsLine027, CreditsLine173, CreditsLine028, CreditsLine029, CreditsLine173, CreditsLine173
+    dw CreditsLine173, CreditsLine030, CreditsLine173, CreditsLine173, CreditsLine031, CreditsLine032, CreditsLine173, CreditsLine173
+    dw CreditsLine173, CreditsLine033, CreditsLine173, CreditsLine173, CreditsLine034, CreditsLine035, CreditsLine173, CreditsLine173
+    dw CreditsLine173, CreditsLine036, CreditsLine173, CreditsLine173, CreditsLine037, CreditsLine038, CreditsLine173, CreditsLine173
+    dw CreditsLine173, CreditsLine039, CreditsLine173, CreditsLine173, CreditsLine040, CreditsLine041, CreditsLine173, CreditsLine042
+    dw CreditsLine043, CreditsLine173, CreditsLine044, CreditsLine045, CreditsLine173, CreditsLine046, CreditsLine047, CreditsLine173
+    dw CreditsLine048, CreditsLine049, CreditsLine173, CreditsLine050, CreditsLine051, CreditsLine173, CreditsLine052, CreditsLine053
+    dw CreditsLine173, CreditsLine054, CreditsLine055, CreditsLine173, CreditsLine173, CreditsLine173, CreditsLine056, CreditsLine173
+    dw CreditsLine173, CreditsLine057, CreditsLine058, CreditsLine173, CreditsLine173, CreditsLine173, CreditsLine059, CreditsLine173
+    dw CreditsLine173, CreditsLine060, CreditsLine061, CreditsLine173, CreditsLine062, CreditsLine063, CreditsLine173, CreditsLine173
+    dw CreditsLine173, CreditsLine064, CreditsLine173, CreditsLine173, CreditsLine065, CreditsLine066, CreditsLine173, CreditsLine067
+    dw CreditsLine068, CreditsLine173, CreditsLine069, CreditsLine070, CreditsLine173, CreditsLine071, CreditsLine072, CreditsLine173
+    dw CreditsLine073, CreditsLine074, CreditsLine173, CreditsLine173, CreditsLine173, CreditsLine075, CreditsLine173, CreditsLine173
+    dw CreditsLine076, CreditsLine077, CreditsLine173, CreditsLine078, CreditsLine079, CreditsLine173, CreditsLine080, CreditsLine081
+    dw CreditsLine173, CreditsLine082, CreditsLine083, CreditsLine173, CreditsLine084, CreditsLine085, CreditsLine173, CreditsLine086
+    dw CreditsLine087, CreditsLine173, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001
     dw CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001
-    dw CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine088, CreditsLine171
-    dw CreditsLine171, CreditsLine001, CreditsLine089, CreditsLine171, CreditsLine171, CreditsLine090, CreditsLine091, CreditsLine171
-    dw CreditsLine092, CreditsLine093, CreditsLine171, CreditsLine094, CreditsLine095, CreditsLine171, CreditsLine171, CreditsLine171
-    dw CreditsLine096, CreditsLine171, CreditsLine171, CreditsLine097, CreditsLine098, CreditsLine171, CreditsLine099, CreditsLine100
-    dw CreditsLine171, CreditsLine171, CreditsLine171, CreditsLine101, CreditsLine171, CreditsLine171, CreditsLine102, CreditsLine103
-    dw CreditsLine171, CreditsLine104, CreditsLine105, CreditsLine171, CreditsLine171, CreditsLine171, CreditsLine106, CreditsLine171
-    dw CreditsLine171, CreditsLine107, CreditsLine108, CreditsLine171, CreditsLine109, CreditsLine110, CreditsLine171, CreditsLine111
-    dw CreditsLine112, CreditsLine171, CreditsLine113, CreditsLine114, CreditsLine171, CreditsLine171, CreditsLine171, CreditsLine115
-    dw CreditsLine171, CreditsLine171, CreditsLine116, CreditsLine117, CreditsLine171, CreditsLine118, CreditsLine119, CreditsLine171
-    dw CreditsLine120, CreditsLine121, CreditsLine171, CreditsLine122, CreditsLine123, CreditsLine171, CreditsLine124, CreditsLine125
-    dw CreditsLine171, CreditsLine126, CreditsLine127, CreditsLine171, CreditsLine171, CreditsLine171, CreditsLine128, CreditsLine171
-    dw CreditsLine171, CreditsLine129, CreditsLine130, CreditsLine171, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001
+    dw CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine088, CreditsLine173
+    dw CreditsLine173, CreditsLine001, CreditsLine089, CreditsLine173, CreditsLine173, CreditsLine090, CreditsLine091, CreditsLine173
+    dw CreditsLine092, CreditsLine093, CreditsLine173, CreditsLine094, CreditsLine095, CreditsLine173, CreditsLine173, CreditsLine173
+    dw CreditsLine096, CreditsLine173, CreditsLine173, CreditsLine097, CreditsLine098, CreditsLine173, CreditsLine099, CreditsLine100
+    dw CreditsLine173, CreditsLine173, CreditsLine173, CreditsLine101, CreditsLine173, CreditsLine173, CreditsLine102, CreditsLine103
+    dw CreditsLine173, CreditsLine104, CreditsLine105, CreditsLine173, CreditsLine173, CreditsLine173, CreditsLine106, CreditsLine173
+    dw CreditsLine173, CreditsLine107, CreditsLine108, CreditsLine173, CreditsLine109, CreditsLine110, CreditsLine173, CreditsLine111
+    dw CreditsLine112, CreditsLine173, CreditsLine113, CreditsLine114, CreditsLine173, CreditsLine173, CreditsLine173, CreditsLine115
+    dw CreditsLine173, CreditsLine173, CreditsLine116, CreditsLine117, CreditsLine173, CreditsLine118, CreditsLine119, CreditsLine173
+    dw CreditsLine120, CreditsLine121, CreditsLine173, CreditsLine122, CreditsLine123, CreditsLine173, CreditsLine124, CreditsLine125
+    dw CreditsLine173, CreditsLine126, CreditsLine127, CreditsLine173, CreditsLine173, CreditsLine173, CreditsLine128, CreditsLine173
+    dw CreditsLine173, CreditsLine129, CreditsLine130, CreditsLine173, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001
     dw CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001
-    dw CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001
-    dw CreditsLine131, CreditsLine171, CreditsLine171, CreditsLine001, CreditsLine132, CreditsLine171, CreditsLine171, CreditsLine133
-    dw CreditsLine134, CreditsLine171, CreditsLine135, CreditsLine136, CreditsLine171, CreditsLine137, CreditsLine138, CreditsLine171
-    dw CreditsLine139, CreditsLine140, CreditsLine171, CreditsLine171, CreditsLine171, CreditsLine141, CreditsLine171, CreditsLine171
-    dw CreditsLine142, CreditsLine143, CreditsLine171, CreditsLine144, CreditsLine145, CreditsLine171, CreditsLine146, CreditsLine147
-    dw CreditsLine171, CreditsLine148, CreditsLine149, CreditsLine171, CreditsLine150, CreditsLine151, CreditsLine171, CreditsLine171
-    dw CreditsLine171, CreditsLine152, CreditsLine171, CreditsLine171, CreditsLine153, CreditsLine154, CreditsLine171, CreditsLine155
-    dw CreditsLine156, CreditsLine171, CreditsLine157, CreditsLine158, CreditsLine171, CreditsLine159, CreditsLine160, CreditsLine171
-    dw CreditsLine161, CreditsLine162, CreditsLine171, CreditsLine163, CreditsLine164, CreditsLine171, CreditsLine165, CreditsLine166
-    dw CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine167, CreditsLine168, CreditsLine171
-    dw CreditsLine169, CreditsLine170, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001
+    dw CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine131, CreditsLine173, CreditsLine173
+    dw CreditsLine001, CreditsLine132, CreditsLine173, CreditsLine173, CreditsLine133, CreditsLine134, CreditsLine173, CreditsLine135
+    dw CreditsLine136, CreditsLine173, CreditsLine137, CreditsLine138, CreditsLine173, CreditsLine139, CreditsLine140, CreditsLine173
+    dw CreditsLine173, CreditsLine173, CreditsLine141, CreditsLine173, CreditsLine173, CreditsLine142, CreditsLine143, CreditsLine173
+    dw CreditsLine144, CreditsLine145, CreditsLine173, CreditsLine146, CreditsLine147, CreditsLine173, CreditsLine148, CreditsLine149
+    dw CreditsLine173, CreditsLine150, CreditsLine151, CreditsLine173, CreditsLine173, CreditsLine173, CreditsLine152, CreditsLine173
+    dw CreditsLine173, CreditsLine153, CreditsLine154, CreditsLine173, CreditsLine155, CreditsLine156, CreditsLine173, CreditsLine157
+    dw CreditsLine158, CreditsLine173, CreditsLine159, CreditsLine160, CreditsLine173, CreditsLine161, CreditsLine162, CreditsLine173
+    dw CreditsLine163, CreditsLine164, CreditsLine173, CreditsLine165, CreditsLine166, CreditsLine173, CreditsLine167, CreditsLine168
+    dw CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine169, CreditsLine170, CreditsLine173
+    dw CreditsLine171, CreditsLine172, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001, CreditsLine001
 
 !FIRST_SWORD_X = 19
-!FIRST_SWORD_Y = 319
+!FIRST_SWORD_Y = 316
 !PEGASUS_BOOTS_X = 19
-!PEGASUS_BOOTS_Y = 322
+!PEGASUS_BOOTS_Y = 319
 !FLUTE_X = 19
-!FLUTE_Y = 325
+!FLUTE_Y = 322
 !MIRROR_X = 19
-!MIRROR_Y = 328
+!MIRROR_Y = 325
 !SWORDLESS_X = 23
-!SWORDLESS_Y = 336
+!SWORDLESS_Y = 333
 !FIGHTERS_SWORD_X = 23
-!FIGHTERS_SWORD_Y = 339
+!FIGHTERS_SWORD_Y = 336
 !MASTER_SWORD_X = 23
-!MASTER_SWORD_Y = 342
+!MASTER_SWORD_Y = 339
 !TEMPERED_SWORD_X = 23
-!TEMPERED_SWORD_Y = 345
+!TEMPERED_SWORD_Y = 342
 !GOLD_SWORD_X = 23
-!GOLD_SWORD_Y = 348
+!GOLD_SWORD_Y = 345
 !GT_BIG_KEY_X = 23
-!GT_BIG_KEY_Y = 356
+!GT_BIG_KEY_Y = 353
 !BONKS_X = 26
-!BONKS_Y = 359
+!BONKS_Y = 356
+!CHEST_TURNS_X = 26
+!CHEST_TURNS_Y = 359
 !SAVE_AND_QUITS_X = 26
 !SAVE_AND_QUITS_Y = 362
 !DEATHS_X = 26

@@ -153,6 +153,7 @@ R	GAME STATS
 
   GT BIG KEY           $$$$/22
   BONKS                   $$$$
+  CHEST TURNS             $$$$
   SAVE AND QUITS          $$$$
   DEATHS                  $$$$
   FAERIE REVIVALS         $$$$
