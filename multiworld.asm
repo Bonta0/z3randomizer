@@ -1,6 +1,3 @@
-HUD_clearTable:
-dw $007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F,$007F
-
 ;"received from " 28 bytes
 HUD_ReceivedFrom:
 dw $296E, $2961, $295F, $2961, $2965, $2972, $2961, $2960, $007F, $2962, $296E, $296B, $2969, $007F
@@ -11,8 +8,6 @@ dw $296F, $2961, $296A, $2970, $007F, $2970, $296B, $007F
 
 macro Print_Text(hdr, hdr_len, player_id)
 PHX : PHY : PHP
-	LDA MW_SkipNotification : CMP #$00 : BNE .textdone
-
 	REP #$30
 	LDX #$0000
 	-
@@ -48,6 +43,7 @@ PHX : PHY : PHP
 	++
 
 	SEP #$20
+	LDA #$01 : STA !NMI_AUX+1 : STA !NMI_AUX
 	LDA !MULTIWORLD_HUD_DELAY
 	STA !MULTIWORLD_HUD_TIMER
 .textdone
@@ -58,32 +54,38 @@ WriteText:
 {
 	PHA : PHX : PHP
 		SEP #$10
-		LDX #$80 : STX $2100
+		LDX $4340 : PHX ; preserve DMA parameters
+		LDX $4341 : PHX ; preserve DMA parameters
+		LDX $4342 : PHX ; preserve DMA parameters
+		LDX $4343 : PHX ; preserve DMA parameters
+		LDX $4344 : PHX ; preserve DMA parameters
+		LDX $4345 : PHX ; preserve DMA parameters
+		LDX $4346 : PHX ; preserve DMA parameters
+		LDX $2115 : PHX ; preserve DMA parameters
+		LDX $2116 : PHX ; preserve DMA parameters
+		LDX $2117 : PHX ; preserve DMA parameters
+		LDX $2100 : PHX : LDX.b #$80 : STX $2100 ; save screen state & turn screen off
+
 		REP #$20
+		LDX #$80 : STX $2115
 		LDA #$6000+$0340 : STA $2116
 		LDA.w #!MULTIWORLD_HUD_CHARACTER_DATA : STA $4342
 		LDX.b #!MULTIWORLD_HUD_CHARACTER_DATA>>16 : STX $4344
 		LDA #$0040 : STA $4345
 		LDA #$1801 : STA $4340
 		LDX #$10 : STX $420B
-		LDX #$0F : STX $2100
-	PLP : PLX : PLA
-RTL
-}
 
-ClearBG:
-{
-	PHA : PHX : PHP
-		SEP #$10
-		LDX #$80 : STX $2100
-		REP #$20
-		LDA #$6000+$0340 : STA $2116
-		LDA.w #HUD_clearTable : STA $4342
-		LDX.b #HUD_clearTable>>16 : STX $4344
-		LDA #$0040 : STA $4345
-		LDA #$1801 : STA $4340
-		LDX #$10 : STX $420B
-		LDX #$0F : STX $2100
+		PLX : STX $2100 ; put screen back however it was before
+		PLX : STX $2117 ; restore DMA parameters
+		PLX : STX $2116 ; restore DMA parameters
+		PLX : STX $2115 ; restore DMA parameters
+		PLX : STX $4346 ; restore DMA parameters
+		PLX : STX $4345 ; restore DMA parameters
+		PLX : STX $4344 ; restore DMA parameters
+		PLX : STX $4343 ; restore DMA parameters
+		PLX : STX $4342 ; restore DMA parameters
+		PLX : STX $4341 ; restore DMA parameters
+		PLX : STX $4340 ; restore DMA parameters
 	PLP : PLX : PLA
 RTL
 }
@@ -105,12 +107,20 @@ GetMultiworldItem:
 
 	LDA !MULTIWORLD_HUD_TIMER
 	CMP #$00 : BEQ .textend
-		CMP !MULTIWORLD_HUD_DELAY : BNE +
-			JSL WriteText
-		+
 		DEC #$01 : STA !MULTIWORLD_HUD_TIMER
 		CMP #$00 : BNE .textend
-			JSL ClearBG
+			; Clear text
+			PHP : REP #$30
+			LDX #$0000
+			-
+			CPX #$0040 : !BGE ++
+				LDA #$007F
+				STA !MULTIWORLD_HUD_CHARACTER_DATA, X
+				INX #2
+				BRA -
+			++
+			PLP
+			LDA #$01 : STA !NMI_AUX+1 : STA !NMI_AUX
 	.textend
 
 	LDA $5D
