@@ -60,6 +60,19 @@ GiveBonkItem:
 		LDA.b #$2F : JSL.l Sound_SetSfx3PanLong
 RTL
 	.notKey
+		PHA
+		LDA $A0
+		CMP #115 : BNE + ; Desert Bonk Key
+			LDA.l BonkKey_Desert_Player
+			BRA ++
+		+ : CMP #140 : BNE + ; GTower Bonk Key
+			LDA.l BonkKey_GTower_Player
+			BRA ++
+		+
+			LDA.b #$00
+		++
+		STA !MULTIWORLD_ITEM_PLAYER_ID
+		PLA
 		PHY : TAY : JSL.l Link_ReceiveItem : PLY
 RTL
 ;--------------------------------------------------------------------------------

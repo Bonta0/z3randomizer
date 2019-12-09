@@ -191,6 +191,14 @@ AddReceivedItemExpandedGetItem:
 	;STA $FFFFFF
 	LDA $02D8 ; check inventory
 	JSL.l FreeDungeonItemNotice
+
+	PHA
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : BEQ +
+		PLA
+		BRL .done
+	+
+	PLA
+
 	CMP.b #$0B : BNE + ; Bow
 		LDA !INVENTORY_SWAP_2 : AND.b #$40 : BEQ ++
 		LDA.l SilverArrowsUseRestriction : BNE ++
@@ -405,11 +413,17 @@ AddReceivedItemExpanded:
 	PHA : PHX
 		JSL.l PreItemGet
 
-		LDA $02D8 ; Item Value
-		JSR AttemptItemSubstitution
-		STA $02D8
+		LDA $02D8 : PHA ; Item Value
+		LDA !MULTIWORLD_ITEM_PLAYER_ID : BNE +
+			PLA
+			JSR AttemptItemSubstitution
+			STA $02D8
 
-		JSR IncrementItemCounters
+			JSR IncrementItemCounters
+			BRA ++
+		+
+		PLA
+		++
 
 		CMP.b #$16 : BNE ++ ; Bottle
 			JSR.w CountBottles : CMP.l BottleLimit : !BLT +++
@@ -460,12 +474,15 @@ AddReceivedItemExpanded:
 			+
 			LDA !PROGRESSIVE_SHIELD : AND.b #$C0 : BNE + ; No Shield
 				LDA.b #$04 : STA $02D8
+				LDA !MULTIWORLD_ITEM_PLAYER_ID : BEQ +++ : BRL .done : +++
 				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRL .done
 			+ : CMP.b #$40 : BNE + ; Fighter Shield
 				LDA.b #$05 : STA $02D8
+				LDA !MULTIWORLD_ITEM_PLAYER_ID : BEQ +++ : BRL .done : +++
 				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRL .done
 			+ ; Everything Else
 				LDA.b #$06 : STA $02D8
+				LDA !MULTIWORLD_ITEM_PLAYER_ID : BEQ +++ : BRL .done : +++
 				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRL .done
 		++ : CMP.b #$60 : BNE ++ ; Progressive Armor
 			LDA $7EF35B : CMP.l ProgressiveArmorLimit : !BLT +
@@ -473,12 +490,12 @@ AddReceivedItemExpanded:
 			+ : CMP.b #$00 : BNE + ; No Armor
 				LDA.b #$22 : STA $02D8 : BRL .done
 			+ ; Everything Else
-				LDA.b #$23 : STA $02D8 : BRA .done
+				LDA.b #$23 : STA $02D8 : BRL .done
 		++ : CMP.b #$61 : BNE ++ ; Progressive Lifting Glove
 			LDA $7EF354 : BNE + ; No Lift
-				LDA.b #$1B : STA $02D8 : BRA .done
+				LDA.b #$1B : STA $02D8 : BRL .done
 			+ ; Everything Else
-				LDA.b #$1C : STA $02D8 : BRA .done
+				LDA.b #$1C : STA $02D8 : BRL .done
 		++ : CMP.b #$64 : BNE ++ : -- ; Progressive Bow
 			LDA $7EF340 : INC : LSR : CMP.l ProgressiveBowLimit : !BLT +
 				LDA.l ProgressiveBowReplacement : STA $02D8 : BRL .done
@@ -487,8 +504,9 @@ AddReceivedItemExpanded:
 			+ ; Any Bow
 				LDA.b #$3B : STA $02D8 : BRA .done
 		++ : CMP.b #$65 : BNE ++ ; Progressive Bow 2
-			LDA.l !INVENTORY_SWAP_2 : ORA #$20 : STA.l !INVENTORY_SWAP_2
-			BRA --
+			LDA !MULTIWORLD_ITEM_PLAYER_ID : BNE +++
+				LDA.l !INVENTORY_SWAP_2 : ORA #$20 : STA.l !INVENTORY_SWAP_2
+			+++ : BRA --
 		++ : CMP.b #$62 : BNE ++ ; RNG Item (Single)
 			JSL.l GetRNGItemSingle : STA $02D8
 			XBA : JSR.w MarkRNGItemSingle
@@ -888,7 +906,14 @@ Link_ReceiveItemAlternatesExpanded:
 	PHB : PHK : PLB
 		;TYA : JSR IncrementItemCounters
 		;LDA Link_ReceiveItemAlternatesExpanded, Y : STA $03
-		TYA : JSR AttemptItemSubstitution : STA $03
+		LDA !MULTIWORLD_ITEM_PLAYER_ID : BNE +
+			TYA
+			JSR AttemptItemSubstitution
+			BRA ++
+		+
+		TYA
+		++
+		STA $03
 		CPY $03 : BNE + : LDA.b #$FF : STA $03 : +
 	PLB
 RTL

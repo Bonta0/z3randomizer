@@ -12,9 +12,12 @@ HeartPieceGet:
 
 	.skipLoad
 
+	JSL.l HeartPieceGetPlayer
+
 	STZ $02E9 ; 0 = Receiving item from an NPC or message
 
 	CPY.b #$26 : BNE .notHeart ; don't add a 1/4 heart if it's not a heart piece
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : BNE .notHeart
 	LDA $7EF36B : INC A : AND.b #$03 : STA $7EF36B : BNE .unfinished_heart ; add up heart quarters
 	BRA .giveItem
 
@@ -94,6 +97,7 @@ DrawHeartContainerGFX:
 	BRA DrawHeartPieceGFX_skipLoad
 ;--------------------------------------------------------------------------------
 HeartContainerSound:
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : BNE +
 	CPY.b #$20 : BEQ + ; Skip for Crystal
 	CPY.b #$37 : BEQ + ; Skip for Pendants
 	CPY.b #$38 : BEQ +
@@ -107,6 +111,11 @@ HeartContainerSound:
 RTL
 ;--------------------------------------------------------------------------------
 NormalItemSkipSound:
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : BEQ +
+		SEC
+		RTL
+	+
+
 	LDA $0C5E, X ; thing we wrote over
 
 	CPY.b #$20 : BEQ + ; Skip for Crystal
@@ -185,7 +194,14 @@ RTL
 ;--------------------------------------------------------------------------------
 !REDRAW = "$7F5000"
 HPItemReset:
-	JSL $09AD58 ; GiveRupeeGift - thing we wrote over
+	PHA
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : BNE .skip
+		PLA
+		JSL $09AD58 ; GiveRupeeGift - thing we wrote over
+		BRA .done
+	.skip
+	PLA
+	.done
 	PHA : LDA #$01 : STA !REDRAW : PLA
 RTL
 ;--------------------------------------------------------------------------------
@@ -425,3 +441,130 @@ RTL
 ;JSL $00D51B ; GetAnimatedSpriteTile
 ;JSL $00D52D ; GetAnimatedSpriteTile.variable
 ;================================================================================
+HeartPieceGetPlayer:
+{
+	PHY
+	LDA $1B : BNE +
+		BRL .outdoors
+	+
+
+	PHP
+	REP #$20 ; set 16-bit accumulator
+	LDA $A0 ; these are all decimal because i got them that way
+	CMP.w #135 : BNE +
+		LDA StandingKey_Hera_Player
+		BRL .done
+	+ CMP.w #200 : BNE +
+		LDA HeartContainer_ArmosKnights_Player
+		BRL .done
+	+ CMP.w #51 : BNE +
+		LDA HeartContainer_Lanmolas_Player
+		BRL .done
+	+ CMP.w #7 : BNE +
+		LDA HeartContainer_Moldorm_Player
+		BRL .done
+	+ CMP.w #90 : BNE +
+		LDA HeartContainer_HelmasaurKing_Player
+		BRL .done
+	+ CMP.w #6 : BNE +
+		LDA HeartContainer_Arrghus_Player
+		BRL .done
+	+ CMP.w #41 : BNE +
+		LDA HeartContainer_Mothula_Player
+		BRL .done
+	+ CMP.w #172 : BNE +
+		LDA HeartContainer_Blind_Player
+		BRL .done
+	+ CMP.w #222 : BNE +
+		LDA HeartContainer_Kholdstare_Player
+		BRL .done
+	+ CMP.w #144 : BNE +
+		LDA HeartContainer_Vitreous_Player
+		BRL .done
+	+ CMP.w #164 : BNE +
+		LDA HeartContainer_Trinexx_Player
+		BRL .done
+	+ CMP.w #225 : BNE +
+		LDA HeartPiece_Forest_Thieves_Player
+		BRL .done
+	+ CMP.w #226 : BNE +
+		LDA HeartPiece_Lumberjack_Tree_Player
+		BRL .done
+	+ CMP.w #234 : BNE +
+		LDA HeartPiece_Spectacle_Cave_Player
+		BRL .done
+	+ CMP.w #283 : BNE +
+		LDA $22 : XBA : AND.w #$0001 ; figure out where link is
+		BNE ++
+			LDA HeartPiece_Circle_Bushes_Player
+			BRL .done
+		++
+			LDA HeartPiece_Graveyard_Warp_Player
+			BRL .done
+	+ CMP.w #294 : BNE +
+		LDA HeartPiece_Mire_Warp_Player
+		BRL .done
+	+ CMP.w #295 : BNE +
+		LDA HeartPiece_Smith_Pegs_Player
+		BRL .done
+	LDA.w #$0000
+	BRL .done
+
+	.outdoors
+	PHP
+	REP #$20 ; set 16-bit accumulator
+	LDA $8A
+	CMP.w #$03 : BNE +
+		LDA $22 : CMP.w #1890 : !BLT ++
+			LDA HeartPiece_Spectacle_Player
+			BRL .done
+		++
+			LDA EtherItem_Player
+			BRL .done
+	+ CMP.w #$05 : BNE +
+		LDA HeartPiece_Mountain_Warp_Player
+		BRL .done
+	+ CMP.w #$28 : BNE +
+		LDA HeartPiece_Maze_Player
+		BRL .done
+	+ CMP.w #$2A : BNE +
+		LDA HauntedGroveItem_Player
+		BRL .done
+	+ CMP.w #$30 : BNE +
+		LDA $22 : CMP.w #512 : !BGE ++
+			LDA HeartPiece_Desert_Player
+			BRL .done
+		++
+			LDA BombosItem_Player
+			BRL .done
+	+ CMP.w #$35 : BNE +
+		LDA HeartPiece_Lake_Player
+		BRL .done
+	+ CMP.w #$3B : BNE +
+		LDA HeartPiece_Swamp_Player
+		BRL .done
+	+ CMP.w #$42 : BNE +
+		LDA HeartPiece_Cliffside_Player
+		BRL .done
+	+ CMP.w #$4A : BNE +
+		LDA HeartPiece_Cliffside_Player
+		BRL .done
+	+ CMP.w #$5B : BNE +
+		LDA HeartPiece_Pyramid_Player
+		BRL .done
+	+ CMP.w #$68 : BNE +
+		LDA HeartPiece_Digging_Player
+		BRL .done
+	+ CMP.w #$81 : BNE +
+		LDA HeartPiece_Zora_Player
+		BRL .done
+	+
+	LDA.w #$0000
+
+	.done
+	AND.w #$00FF ; the loads are words but the values are 1-byte so we need to clear the top half of the accumulator - no guarantee it was 8-bit before
+	PLP
+	STA !MULTIWORLD_ITEM_PLAYER_ID
+	PLY
+RTL
+}

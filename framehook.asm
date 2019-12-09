@@ -42,8 +42,30 @@ FrameHookAction:
 	PLP : PLA
 RTL
 ;--------------------------------------------------------------------------------
+!NMI_AUX = "$7F5044"
 NMIHookAction:
 	PHA : PHX : PHY : PHD ; thing we wrote over, push stuff
+
+	LDA !NMI_AUX : BEQ ++
+		PHP
+		SEP #$30
+
+		LDA #$00 : STA !NMI_AUX
+
+		; Multiworld text
+		LDA !NMI_AUX+1 : BEQ +
+			LDA #$00 : STA !NMI_AUX+1
+			JSL.l WriteText
+		+
+
+		; Shops
+		LDA !NMI_AUX+2 : BEQ +
+			LDA #$00 : STA !NMI_AUX+2
+			JSL.l Shopkeeper_UploadVRAMTilesLong
+		+
+
+		PLP
+	++
 	
 	LDA !LOCK_STATS : AND.w #$00FF : BNE ++
 		LDA !NMI_FRAMES_LOW : INC : STA !NMI_FRAMES_LOW : BNE +

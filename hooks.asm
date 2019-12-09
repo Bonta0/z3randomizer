@@ -1,3 +1,10 @@
+org $078102 ; no idea where that is, ask zarby
+JSL GetMultiworldItem
+
+org $01EC07 ; Dungeon_OpenKeyedObject .nextChest : LDA Dungeon_ChestData+2, X
+JSL.l Multiworld_OpenKeyedObject
+
+
 ;================================================================================
 ; Init Hook
 ;--------------------------------------------------------------------------------
@@ -819,6 +826,10 @@ NOP
 org $0799F7 ; 399F7 - Bank07.asm:4107 (JSL AddReceivedItem)
 JSL.l AddReceivedItemExpanded
 
+org $098605 ; 48605 - ancilla_init.asm:709 (TYA : STA $02E4 : PHX)
+JML.l Multiworld_AddReceivedItem_notCrystal
+NOP
+
 org $098611 ; 48611 - ancilla_init.asm:720 (LDA .item_target_addr+0, X)
 LDA.w AddReceivedItemExpanded_item_target_addr+0, X
 org $098616 ; 48616 - ancilla_init.asm:721 (LDA .item_target_addr+1, X)
@@ -1144,6 +1155,9 @@ JSL.l DrawMushroom
 ;--------------------------------------------------------------------------------
 org $05EE97 ; <- 2EE97 - sprite_mushroom.asm : 81
 NOP #14
+;--------------------------------------------------------------------------------
+org $05EB1D ; <- 2EB1D - sprite_bottle_vendor.asm : 158
+JSL.l Multiworld_BottleVendor_GiveBottle
 ;--------------------------------------------------------------------------------
 org $07A36F ; <- 3A36F - Bank07.asm : 5679
 NOP #5
@@ -1574,6 +1588,17 @@ JSL.l HUDRebuildIndoorHole
 ;--------------------------------------------------------------------------------
 
 ;================================================================================
+; Skull Woods back entrance fire fix
+;--------------------------------------------------------------------------------
+org $099C42 ; ancilla_init.asm:4264 - (LDA $8A : AND.b #$40 : BEQ AddDoorDebris.spawn_failed)
+JML.l Multiworld_ConsumingFire_TransmuteToSkullWoodsFire
+NOP #2
+ConsumingFire_TransmuteToSkullWoodsFire_continue:
+
+org $099C39
+AddDoorDebris_spawn_failed:
+
+;================================================================================
 ; Pendant / Crystal Fixes
 ;--------------------------------------------------------------------------------
 ;org $0DE9C8 ; <- 6E9C8 - original check for agahnim 1 being defeated
@@ -1909,8 +1934,18 @@ JSL FixAgahnimFollowers
 org $028823 ; <- 10823 - Bank02.asm:1560 (LDA $7EF3C5 : BEQ .ignoreInput)
 JSL.l AllowSQ
 ;--------------------------------------------------------------------------------
-org $08C45F ; <- 4445F - ancilla_recieve_item.asm:157 (STZ $02E9)
-JSL.l PostItemAnimation : NOP #2
+
+org $08C45F ; <- 4445F - ancilla_recieve_item.asm:157 (STZ $02E9 : LDA $0C5E, X)
+Ancilla_ReceiveItem_optimus:
+JML.l PostItemAnimation : NOP #2
+
+org $08C548 ; <- 44548 - ancilla_recieve_item.asm:297 (CMP.b #$28 : BNE .dontGiveRupees)
+JML.l Multiworld_Ancilla_ReceiveItem_stillInMotion
+Ancilla_ReceiveItem_stillInMotion_moveon:
+
+org $08C560 ; <- 44548 - ancilla_recieve_item.asm:307
+Ancilla_ReceiveItem_dontGiveRupees:
+
 ;--------------------------------------------------------------------------------
 org $1EE90A ; <- F690A
 JSL.l ItemCheck_OldMan
@@ -2038,8 +2073,12 @@ JSL.l MarkThrownItem
 org $05FAFF ; <- 2FAFF - sprite_mad_batter.asm:57 (LDA $7EF37B : CMP.b #$01 : BCS .magic_already_doubled)
 JSL.l ItemCheck_MagicBat : BEQ + : RTS : NOP : +
 ;================================================================================
-
-
+org $06BD6C ; <- 33D6C - sprite_middle_aged_man.asm:143 (JSL Link_ReceiveItem)
+JSL.l Multiworld_MiddleAgedMan_ReactToSecretKeepingResponse
+org $06BE81 ; <- 33E81 - sprite_hobo.asm:150 (JSL Link_ReceiveItem)
+JSL.l Multiworld_Hobo_GrantBottle
+org $0589B4 ; <- 289B4 ; sprite_master_sword.asm:183 (JSL Link_ReceiveItem)
+JSL.l Multiworld_MasterSword_GrantToPlayer
 ;================================================================================
 ; Boss Hearts
 ;--------------------------------------------------------------------------------

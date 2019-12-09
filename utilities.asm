@@ -8,7 +8,7 @@
 ; out:	A - Sprite GFX ID
 ;--------------------------------------------------------------------------------
 GetSpriteID:
-	JSR AttemptItemSubstitution
+	;JSR AttemptItemSubstitution
 	CMP.b #$16 : BEQ .bottle ; Bottle
 	CMP.b #$2B : BEQ .bottle ; Red Potion w/bottle
 	CMP.b #$2C : BEQ .bottle ; Green Potion w/bottle
@@ -147,7 +147,7 @@ RTL
 ; out:	A - Palette
 ;--------------------------------------------------------------------------------
 GetSpritePalette:
-	JSR AttemptItemSubstitution
+	;JSR AttemptItemSubstitution
 	CMP.b #$16 : BEQ .bottle ; Bottle
 	CMP.b #$2B : BEQ .bottle ; Red Potion w/bottle
 	CMP.b #$2C : BEQ .bottle ; Green Potion w/bottle
@@ -276,7 +276,7 @@ RTL
 IsNarrowSprite:
 	PHA : PHX
 	PHB : PHK : PLB
-	JSR AttemptItemSubstitution
+	;JSR AttemptItemSubstitution
 	;--------
 	CMP.b #$16 : BEQ .bottle ; Bottle
 	CMP.b #$2B : BEQ .bottle ; Red Potion w/bottle
