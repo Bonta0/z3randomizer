@@ -54,6 +54,7 @@ OnQuit:
 RTL
 ;--------------------------------------------------------------------------------
 OnUncleItemGet:
+	PHA : LDA UncleItem_Player : STA !MULTIWORLD_ITEM_PLAYER_ID : PLA
 	JSL Link_ReceiveItem
 
 	LDA.l EscapeAssist
@@ -213,6 +214,17 @@ PostItemAnimation:
 		LDA.b #$00 : STA $7F509F
 	+
 
+	LDA $1B : BEQ +
+		REP #$20 : LDA $A0 : STA !MULTIWORLD_ROOMID : SEP #$20
+		LDA $0403 : STA !MULTIWORLD_ROOMDATA
+	+
+
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : BEQ +
+		STZ $02E9
+		LDA #$00 : STA !MULTIWORLD_ITEM_PLAYER_ID
+		JML.l Ancilla_ReceiveItem_objectFinished
+	+
+
     STZ $02E9 : LDA $0C5E, X ; thing we wrote over to get here
-RTL
+	JML.l Ancilla_ReceiveItem_optimus+6
 ;--------------------------------------------------------------------------------

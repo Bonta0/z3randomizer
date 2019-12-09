@@ -23,6 +23,7 @@ RTL
 	.forceHeart
 	LDA #$33 : STA $C8 ; assure the correct state if player talked to shopkeeper
 	LDA $0403 : AND.b #$40 : BNE .notHeart
+	LDA ChestGameItem_Player : STA !MULTIWORLD_ITEM_PLAYER_ID
 	LDA #$07 ; give prize item
 RTL
 	.notHeart

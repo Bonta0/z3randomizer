@@ -23,17 +23,21 @@ DrawThrownItem:
 RTL
 ;--------------------------------------------------------------------------------
 MarkThrownItem:
-	JSL Link_ReceiveItem ; thing we wrote over
-	
+	PHA
+
 	LDA $8A : CMP.b #$81 : BNE .catfish
-	
+
 	.zora
     JSL.l ItemSet_ZoraKing
+	LDA ZoraItem_Player : STA !MULTIWORLD_ITEM_PLAYER_ID
 	BRA .done
-	
+
 	.catfish
     JSL.l ItemSet_Catfish
-	
+	LDA CatfishItem_Player : STA !MULTIWORLD_ITEM_PLAYER_ID
+
 	.done
+	PLA
+	JSL Link_ReceiveItem ; thing we wrote over
 RTL
 ;--------------------------------------------------------------------------------

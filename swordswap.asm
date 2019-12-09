@@ -154,6 +154,7 @@ GetSmithSword:
 		BRA .done
 
 	.buy
+		LDA SmithItem_Player : STA !MULTIWORLD_ITEM_PLAYER_ID
 	    LDA.l SmithItem : TAY
 	    STZ $02E9 ; Item from NPC
 		PHX : JSL Link_ReceiveItem : PLX

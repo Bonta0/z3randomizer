@@ -201,6 +201,11 @@ FullInventoryExternal:
 !SHAME_CHEST = "$7EF416" ; ---s ----
 AddInventory:
 	PHA : PHX : PHP
+
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : BEQ +
+		BRL .incrementCounts
+	+
+
 	CPY.b #$0C : BNE + ; Blue Boomerang
 		LDA !INVENTORY_SWAP : ORA #$80 : STA !INVENTORY_SWAP
 		BRL .incrementCounts
@@ -247,6 +252,10 @@ AddInventory:
 
 	.incrementCounts
 	LDA !LOCK_STATS : BEQ + : BRL .done : +
+	
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : BEQ +
+		BRL .dungeonCounts
+	+
 
 	; don't count any of this stuff
 	CPY.b #$20 : BNE + : BRL .itemCounts : + ; Crystal
@@ -290,6 +299,11 @@ AddInventory:
 	++
 
 	.dungeonCounts
+	
+	LDA !MULTIWORLD_RECEIVING_ITEM : CMP #$01 : BNE +
+		BRL .fullItemCounts
+	+
+	
 	LDA $1B : BNE + : BRL .fullItemCounts : +
 	; ==BEGIN INDOOR-ONLY SECTION
 
@@ -360,21 +374,27 @@ AddInventory:
 	; == END INDOOR-ONLY SECTION
 	.fullItemCounts
 
-	CPY.b #$3B : BNE + ; Skip Total Counts for Repeat Silver Arrows
-		LDA $7EF42A : BIT #$20 : BEQ + : BRA .itemCounts
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : BNE +
+		CPY.b #$3B : BNE + ; Skip Total Counts for Repeat Silver Arrows
+			LDA $7EF42A : BIT #$20 : BEQ + : BRA .itemCounts
 	+
 
-	LDA $7EF355 : BNE + ; Check for Boots
-		LDA $7EF432 : INC : STA $7EF432 ; Increment Pre Boots Counter
-	+
+	LDA !MULTIWORLD_RECEIVING_ITEM : CMP #$01 : BEQ ++
+		LDA $7EF355 : BNE + ; Check for Boots
+			LDA $7EF432 : INC : STA $7EF432 ; Increment Pre Boots Counter
+		+
 
-	LDA $7EF353 : BNE + ; Check for Mirror
-		LDA $7EF433 : INC : STA $7EF433 ; Increment Pre Mirror Counter
-	+
-
-	LDA $7EF423 : INC : STA $7EF423 ; Increment Item Total
+		LDA $7EF353 : BNE + ; Check for Mirror
+			LDA $7EF433 : INC : STA $7EF433 ; Increment Pre Mirror Counter
+		+
+		LDA $7EF423 : INC : STA $7EF423 ; Increment Item Total
+	++
 
 	.itemCounts
+
+	LDA !MULTIWORLD_ITEM_PLAYER_ID : BEQ +
+		BRL .done
+	+
 
 	CPY.b #$00 : BNE + ; Fighter's Sword & Fighter's Shield
 		JSR .incrementSword
@@ -1032,6 +1052,7 @@ CollectPowder:
 		; if for any reason the item value is 0 reload it, just in case
 		%GetPossiblyEncryptedItem(WitchItem, SpriteItemValues) : TAY
 	+
+	PHA : LDA WitchItem_Player : STA !MULTIWORLD_ITEM_PLAYER_ID : PLA
     STZ $02E9 ; item from NPC
     JSL.l Link_ReceiveItem
 	;JSL.l FullInventoryExternal

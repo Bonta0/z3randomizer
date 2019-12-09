@@ -77,6 +77,17 @@ db #$20, #$19, #$08, #$31 ; year/month/day
 
 ;================================================================================
 
+!MULTIWORLD_ITEM = "$7EF4D2"
+!MULTIWORLD_ITEM_FROM = "$7EF4D3"
+!MULTIWORLD_ROOMID = "$7EF4D4"
+!MULTIWORLD_ROOMDATA = "$7EF4D6"
+!MULTIWORLD_RECEIVING_ITEM = "$7EC057" ; 0 = default | 1 = receiving
+!MULTIWORLD_HUD_CHARACTER_DATA = "$7EC058" ; 0x40 bytes
+!MULTIWORLD_ITEM_PLAYER_ID = "$7EC098" ; 0 = disabled
+!MULTIWORLD_HUD_TIMER = "$7EC099"
+!MULTIWORLD_HUD_DELAY = "#120"
+!Dungeon_ChestData = "$01E96C"
+
 incsrc hooks.asm
 incsrc treekid.asm
 incsrc spriteswap.asm
@@ -180,10 +191,11 @@ incsrc compasses.asm
 incsrc save.asm
 incsrc password.asm
 incsrc enemy_adjustments.asm
-incsrc hudtext.asm
+;incsrc hudtext.asm
 incsrc servicerequest.asm
 incsrc elder.asm
 incsrc toast.asm
+incsrc multiworld.asm
 warnpc $A58000
 
 ;org $228000 ; contrib area
@@ -195,6 +207,7 @@ incsrc stats/main.asm
 
 org $308000 ; bank #$30
 incsrc tables.asm
+warnpc $318000
 
 ; uncomment for inverted adjustments
 ;incsrc sandbox.asm
@@ -508,6 +521,9 @@ Sprite_CheckIfPlayerPreoccupied:
 org $08C3AE
 Ancilla_ReceiveItem:
 
+org $08C505
+Ancilla_ReceiveItem_objectFinished:
+
 org $08CE93
 Ancilla_BreakTowerSeal_draw_single_crystal:
 
@@ -522,6 +538,12 @@ Ancilla_SetOam_XY_Long:
 
 org $0985E2 ; (break on $0985E4)
 AddReceivedItem:
+
+org $098605
+AddReceivedItem_notCrystal:
+
+org $098766
+AddReceivedItem_gfxHandling:
 
 org $098BAD
 AddPendantOrCrystal:
