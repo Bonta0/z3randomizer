@@ -138,7 +138,6 @@ incsrc halfmagicbat.asm
 incsrc newitems.asm
 incsrc mantle.asm
 incsrc swordswap.asm
-incsrc stats.asm
 incsrc scratchpad.asm
 incsrc map.asm
 incsrc msu.asm
@@ -202,6 +201,7 @@ incsrc compasses.asm
 incsrc save.asm
 incsrc password.asm
 incsrc enemy_adjustments.asm
+incsrc stats.asm
 ;incsrc hudtext.asm
 incsrc servicerequest.asm
 incsrc elder.asm
