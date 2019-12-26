@@ -58,6 +58,8 @@ RTL
 			JSL.l GetSpriteID
 			RTL
 		.skipswordlimit : LDA $7EF359
+		+ : CMP.b #$FF : BNE + ; Swordless
+			LDA.b #$43 : RTL
 		+ : CMP.b #$00 : BNE + ; No Sword
 			LDA.b #$43 : RTL
 		+ : CMP.b #$01 : BNE + ; Fighter Sword

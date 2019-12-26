@@ -448,7 +448,9 @@ AddReceivedItemExpanded:
 			LDA $7EF359 : CMP.l ProgressiveSwordLimit : !BLT +
 				LDA.l ProgressiveSwordReplacement : STA $02D8 : BRL .done
 			+
-			LDA $7EF359 : CMP.b #$00 : BNE + ; No Sword
+			LDA $7EF359 : CMP.b #$FF : BNE + ; Swordless
+				LDA.b #$49 : STA $02D8 : BRL .done
+			+ : CMP.b #$00 : BNE + ; No Sword
 				LDA.b #$49 : STA $02D8 : BRL .done
 			+ : CMP.b #$01 : BNE + ; Fighter Sword
 				LDA.b #$50 : STA $02D8 : BRL .done
