@@ -54,13 +54,15 @@ OnQuit:
 RTL
 ;--------------------------------------------------------------------------------
 OnUncleItemGet:
-	PHA : LDA UncleItem_Player : STA !MULTIWORLD_ITEM_PLAYER_ID : PLA
+	PHA
+		LDA.l EscapeAssist
+		BIT.b #$04 : BEQ + : STA !INFINITE_MAGIC : +
+		BIT.b #$02 : BEQ + : STA !INFINITE_BOMBS : +
+		BIT.b #$01 : BEQ + : STA !INFINITE_ARROWS : +
+		
+		LDA UncleItem_Player : STA !MULTIWORLD_ITEM_PLAYER_ID
+	PLA
 	JSL Link_ReceiveItem
-
-	LDA.l EscapeAssist
-	BIT.b #$04 : BEQ + : STA !INFINITE_MAGIC : +
-	BIT.b #$02 : BEQ + : STA !INFINITE_BOMBS : +
-	BIT.b #$01 : BEQ + : STA !INFINITE_ARROWS : +
 
 	LDA.l UncleRefill : BIT.b #$04 : BEQ + : LDA.b #$80 : STA $7EF373 : + ; refill magic
 	LDA.l UncleRefill : BIT.b #$02 : BEQ + : LDA.b #50 : STA $7EF375 : + ; refill bombs
