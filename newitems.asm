@@ -424,43 +424,31 @@ AddReceivedItemExpanded:
 		+
 		PLA
 		++
-
-		CMP.b #$16 : BNE ++ ; Bottle
-			JSR.w CountBottles : CMP.l BottleLimit : !BLT +++
-				LDA.l BottleLimitReplacement : STA $02D8
-			+++ : BRL .done
-		++ : CMP.b #$2B : BNE ++ ; Red Potion w/bottle
-			JSR.w CountBottles : CMP.l BottleLimit : !BLT +++
-				LDA.l BottleLimitReplacement : STA $02D8
-			+++ : BRL .done
-		++ : CMP.b #$2C : BNE ++ ; Green Potion w/bottle
-			JSR.w CountBottles : CMP.l BottleLimit : !BLT +++
-				LDA.l BottleLimitReplacement : STA $02D8
-			+++ : BRL .done
-		++ : CMP.b #$2D : BNE ++ ; Blue Potion w/bottle
-			JSR.w CountBottles : CMP.l BottleLimit : !BLT +++
-				LDA.l BottleLimitReplacement : STA $02D8
-			+++ : BRL .done
-		++ : CMP.b #$3C : BNE ++ ; Bee w/bottle
-			JSR.w CountBottles : CMP.l BottleLimit : !BLT +++
-				LDA.l BottleLimitReplacement : STA $02D8
-			+++ : BRL .done
-		++ : CMP.b #$3D : BNE ++ ; Fairy w/bottle
-			JSR.w CountBottles : CMP.l BottleLimit : !BLT +++
-				LDA.l BottleLimitReplacement : STA $02D8
-			+++ : BRL .done
-		++ : CMP.b #$48 : BNE ++ ; Gold Bee w/bottle
-			JSR.w CountBottles : CMP.l BottleLimit : !BLT +++
-				LDA.l BottleLimitReplacement : STA $02D8
-			+++ : BRL .done
+		
+		CMP.b #$16 : BEQ .bottle ; Bottle
+		CMP.b #$2B : BEQ .bottle ; Red Potion w/bottle
+		CMP.b #$2C : BEQ .bottle ; Green Potion w/bottle
+		CMP.b #$2D : BEQ .bottle ; Blue Potion w/bottle
+		CMP.b #$3C : BEQ .bottle ; Bee w/bottle
+		CMP.b #$3D : BEQ .bottle ; Fairy w/bottle
+		CMP.b #$48 : BEQ .bottle ; Gold Bee w/bottle
+			BRA .notBottle
+			.bottle
+				JSR.w CountBottles : CMP.l BottleLimit : !BLT +++
+					LDA !MULTIWORLD_ITEM_PLAYER_ID : BNE +++
+					LDA.l BottleLimitReplacement : STA $02D8
+				+++ : BRL .done
+			.notBottle
 		++ : CMP.b #$4E : BNE ++ ; Progressive Magic
 			LDA $7EF37B : BEQ +++
 				LDA.b #$4F : STA $02D8
 			+++ : BRL .done
 		++ : CMP.b #$5E : BNE ++ ; Progressive Sword
+			LDA !MULTIWORLD_ITEM_PLAYER_ID : BNE +
 			LDA $7EF359 : CMP.l ProgressiveSwordLimit : !BLT +
 				LDA.l ProgressiveSwordReplacement : STA $02D8 : BRL .done
-			+ : CMP.b #$00 : BNE + ; No Sword
+			+
+			LDA $7EF359 : CMP.b #$00 : BNE + ; No Sword
 				LDA.b #$49 : STA $02D8 : BRL .done
 			+ : CMP.b #$01 : BNE + ; Fighter Sword
 				LDA.b #$50 : STA $02D8 : BRL .done
@@ -469,25 +457,31 @@ AddReceivedItemExpanded:
 			+ ; Everything Else
 				LDA.b #$03 : STA $02D8 : BRL .done
 		++ : CMP.b #$5F : BNE ++ ; Progressive Shield
+			LDA !MULTIWORLD_ITEM_PLAYER_ID : BEQ +
+				LDA !PROGRESSIVE_SHIELD : AND.b #$C0 : BNE +++ ; No Shield
+					LDA.b #$04 : STA $02D8 : BRL .done
+				+++ : CMP.b #$40 : BNE +++ ; Fighter Shield
+					LDA.b #$05 : STA $02D8 : BRL .done
+				+++ ; Everything Else
+					LDA.b #$06 : STA $02D8 : BRL .done
+			+
 			LDA !PROGRESSIVE_SHIELD : LSR #6 : CMP.l ProgressiveShieldLimit : !BLT +
 				LDA.l ProgressiveShieldReplacement : STA $02D8 : BRL .done
 			+
 			LDA !PROGRESSIVE_SHIELD : AND.b #$C0 : BNE + ; No Shield
-				LDA.b #$04 : STA $02D8
-				LDA !MULTIWORLD_ITEM_PLAYER_ID : BEQ +++ : BRL .done : +++
-				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRL .done
+				LDA.b #$04 : BRA .shielddone
 			+ : CMP.b #$40 : BNE + ; Fighter Shield
-				LDA.b #$05 : STA $02D8
-				LDA !MULTIWORLD_ITEM_PLAYER_ID : BEQ +++ : BRL .done : +++
-				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRL .done
+				LDA.b #$05 : BRA .shielddone
 			+ ; Everything Else
-				LDA.b #$06 : STA $02D8
-				LDA !MULTIWORLD_ITEM_PLAYER_ID : BEQ +++ : BRL .done : +++
-				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRL .done
+				LDA.b #$06
+			.shielddone : STA $02D8
+			LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRL .done
 		++ : CMP.b #$60 : BNE ++ ; Progressive Armor
+			LDA !MULTIWORLD_ITEM_PLAYER_ID : BNE +
 			LDA $7EF35B : CMP.l ProgressiveArmorLimit : !BLT +
 				LDA.l ProgressiveArmorReplacement : STA $02D8 : BRL .done
-			+ : CMP.b #$00 : BNE + ; No Armor
+			+
+			LDA $7EF35B : CMP.b #$00 : BNE + ; No Armor
 				LDA.b #$22 : STA $02D8 : BRL .done
 			+ ; Everything Else
 				LDA.b #$23 : STA $02D8 : BRL .done
@@ -497,9 +491,11 @@ AddReceivedItemExpanded:
 			+ ; Everything Else
 				LDA.b #$1C : STA $02D8 : BRL .done
 		++ : CMP.b #$64 : BNE ++ : -- ; Progressive Bow
+			LDA !MULTIWORLD_ITEM_PLAYER_ID : BNE +
 			LDA $7EF340 : INC : LSR : CMP.l ProgressiveBowLimit : !BLT +
 				LDA.l ProgressiveBowReplacement : STA $02D8 : BRL .done
-			+ : CMP.b #$00 : BNE + ; No Bow
+			+
+			LDA $7EF340 : INC : LSR : CMP.b #$00 : BNE + ; No Bow
 				LDA.b #$3A : STA $02D8 : BRA .done
 			+ ; Any Bow
 				LDA.b #$3B : STA $02D8 : BRA .done

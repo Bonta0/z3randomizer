@@ -12,7 +12,7 @@ HeartPieceGet:
 
 	.skipLoad
 
-	JSL.l HeartPieceGetPlayer
+	JSL.l HeartPieceGetPlayer : STA !MULTIWORLD_ITEM_PLAYER_ID
 
 	STZ $02E9 ; 0 = Receiving item from an NPC or message
 
@@ -162,6 +162,7 @@ HeartPieceSpritePrep:
 	LDA $5D : CMP #$14 : BEQ .skip ; skip if we're mid-mirror
 
 	LDA #$00 : STA !REDRAW
+	JSL.l HeartPieceGetPlayer : STA !MULTIWORLD_SPRITEITEM_PLAYER_ID
 	JSL.l LoadHeartPieceRoomValue ; load item type
 	STA $0E80, X ; Store item type
 	JSL.l PrepDynamicTile
@@ -175,6 +176,7 @@ HeartContainerSpritePrep:
 	PHA
 	
 	LDA #$00 : STA !REDRAW
+	JSL.l HeartPieceGetPlayer : STA !MULTIWORLD_SPRITEITEM_PLAYER_ID
 	JSL.l LoadHeartContainerRoomValue ; load item type
 	STA $0E80, X ; Store item type
 	JSL.l PrepDynamicTile
@@ -564,7 +566,6 @@ HeartPieceGetPlayer:
 	.done
 	AND.w #$00FF ; the loads are words but the values are 1-byte so we need to clear the top half of the accumulator - no guarantee it was 8-bit before
 	PLP
-	STA !MULTIWORLD_ITEM_PLAYER_ID
 	PLY
 RTL
 }
