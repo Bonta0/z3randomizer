@@ -3,6 +3,7 @@
 ;--------------------------------------------------------------------------------
 !HEART_REDRAW = "$7F5000"
 LoadCatfishItemGFX:
+	LDA.l CatfishItem_Player : STA !MULTIWORLD_SPRITEITEM_PLAYER_ID
     LDA.l $1DE185 ; location randomizer writes catfish item to
 	JSL.l PrepDynamicTile
 RTL

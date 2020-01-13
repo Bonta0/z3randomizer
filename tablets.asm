@@ -32,6 +32,7 @@ RTL
 SpawnTabletItem:
 ;	JSL.l HeartPieceGet
 ;RTL
+	JSL.l HeartPieceGetPlayer : STA !MULTIWORLD_SPRITEITEM_PLAYER_ID
 	JSL.l LoadOutdoorValue
 	PHA
 	JSL.l PrepDynamicTile

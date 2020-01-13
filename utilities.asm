@@ -19,6 +19,7 @@ GetSpriteID:
 		BRA .notBottle
 		.bottle
 			PHA : JSR.w CountBottles : CMP.l BottleLimit : !BLT +
+				LDA !MULTIWORLD_SPRITEITEM_PLAYER_ID : BNE +
 				PLA : LDA.l BottleLimitReplacement
 				JSL.l GetSpriteID
 				RTL
@@ -42,6 +43,7 @@ RTL
 	++ CMP.b #$FB : BNE ++ ; RNG Item (Multi)
 		JSL.l GetRNGItemMulti : JMP GetSpriteID
 	++ CMP.b #$FD : BNE ++ ; Progressive Armor
+		LDA !MULTIWORLD_SPRITEITEM_PLAYER_ID : BNE +
 		LDA $7EF35B : CMP.l ProgressiveArmorLimit : !BLT + ; Progressive Armor Limit
 			LDA.l ProgressiveArmorReplacement
 			JSL.l GetSpriteID
@@ -49,11 +51,13 @@ RTL
 		+
 		LDA.b #$04 : RTL
 	++ CMP.b #$FE : BNE ++ ; Progressive Sword
+		LDA !MULTIWORLD_SPRITEITEM_PLAYER_ID : BNE .skipswordlimit
 		LDA $7EF359
 		CMP.l ProgressiveSwordLimit : !BLT + ; Progressive Sword Limit
 			LDA.l ProgressiveSwordReplacement
 			JSL.l GetSpriteID
 			RTL
+		.skipswordlimit : LDA $7EF359
 		+ : CMP.b #$00 : BNE + ; No Sword
 			LDA.b #$43 : RTL
 		+ : CMP.b #$01 : BNE + ; Fighter Sword
@@ -64,11 +68,13 @@ RTL
 			LDA.b #$46 : RTL
 		+
 	++ : CMP.b #$FF : BNE ++ ; Progressive Shield
+		LDA !MULTIWORLD_SPRITEITEM_PLAYER_ID : BNE .skipshieldlimit
 		LDA !PROGRESSIVE_SHIELD : AND #$C0 : LSR #6
 		CMP.l ProgressiveShieldLimit : !BLT + ; Progressive Shield Limit
 			LDA.l ProgressiveShieldReplacement
 			JSL.l GetSpriteID
 			RTL
+		.skipshieldlimit : LDA !PROGRESSIVE_SHIELD : AND #$C0 : LSR #6
 		+ : CMP.b #$00 : BNE + ; No Shield
 			LDA.b #$2D : RTL
 		+ : CMP.b #$01 : BNE + ; Fighter Shield
@@ -76,8 +82,14 @@ RTL
 		+ ; Everything Else
 			LDA.b #$2E : RTL
 	++ : CMP.b #$F8 : BNE ++ ; Progressive Bow
-		LDA $7EF340
-		CMP.b #$00 : BNE + ; No Bow
+		LDA !MULTIWORLD_SPRITEITEM_PLAYER_ID : BNE .skipbowlimit
+		LDA $7EF340 : INC : LSR
+		CMP.l ProgressiveBowLimit : !BLT +
+			LDA.l ProgressiveBowReplacement
+			JSL.l GetSpriteID
+			RTL
+		.skipbowlimit : LDA $7EF340 : INC : LSR
+		+ : CMP.b #$00 : BNE + ; No Bow
 			LDA.b #$29 : RTL
 		+ ; Any Bow
 			LDA.b #$2A : RTL
@@ -362,6 +374,7 @@ PrepDynamicTile:
 	JSR.w LoadDynamicTileOAMTable
 	JSL.l GetSpriteID ; convert loot id to sprite id
 	JSL.l GetAnimatedSpriteTile_variable
+	LDA.b #$00 : STA !MULTIWORLD_SPRITEITEM_PLAYER_ID
 	PLY : PLX : PLA
 RTL
 ;--------------------------------------------------------------------------------
