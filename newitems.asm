@@ -416,19 +416,28 @@ RTL
 AddReceivedItemExpanded:
 {
 	PHA : PHX
+		LDA RemoteItems : BEQ + : LDA !MULTIWORLD_ITEM_PLAYER_ID : BEQ +
+			LDA $02E9 : BEQ ++ : CMP #$03 : BNE +++ : ++
+				; fromTextOrObject
+				LDA $0345 : BEQ ++ : LDA.b #$04 : ++ : STA $5D ; Restore Link to his swimming state
+				STZ $02DA : STZ $037B : STZ $02E4
+				LDA #$0E : STA $012F
+			+++
+			STZ $02D8 : STZ $02D9 : STZ $02E9
+			PHY : LDY.b #$00 : JSL AddInventory : PLY
+			PLX : PLA : RTL
+		+
+		
 		JSL.l PreItemGet
 
-		LDA $02D8 : PHA ; Item Value
 		LDA !MULTIWORLD_ITEM_PLAYER_ID : BNE +
-			PLA
+			LDA $02D8
 			JSR AttemptItemSubstitution
 			STA $02D8
 
 			JSR IncrementItemCounters
-			BRA ++
 		+
-		PLA
-		++
+		LDA $02D8 ; Item Value
 		
 		CMP.b #$16 : BEQ .bottle ; Bottle
 		CMP.b #$2B : BEQ .bottle ; Red Potion w/bottle

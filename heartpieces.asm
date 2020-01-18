@@ -64,16 +64,13 @@ DrawHeartPieceGFX:
 
 	.skipLoad
 	
-	PHA
-		JSL.l IsNarrowSprite : BCC +
-		LDA $0E60, X : ORA.b #$20 : STA $0E60, X
-	+
-	;LDA $0E60, X : ORA.b #$10 : STA $0E60, X
-	
-    PLA
-	
 	JSL.l DrawDynamicTile
-	JSL.l Sprite_DrawShadowLong 
+	
+	CMP #$03 : BNE +
+		PHA : LDA $0E60, X : ORA.b #$20 : STA $0E60, X : PLA
+	+
+
+	JSL.l Sprite_DrawShadowLong
 	
 	.done
 	PLY : PLA

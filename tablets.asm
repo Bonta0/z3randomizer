@@ -18,7 +18,6 @@ ItemCheck_BombosTablet:
 RTL
 ;--------------------------------------------------------------------------------
 SetTabletItem:
-	JSL.l GetSpriteID
 	PHA
 		LDA $8A : CMP.b #$03 : BEQ .ether ; if we're on the map where ether is, we're the ether tablet
 		.bombos
